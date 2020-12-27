@@ -4,7 +4,7 @@ public class DAODebugger {
 
 	public static void main(String[] args) {
 		UserDAO ud = new UserDAO();
-		ud.findByUserName(null);
+		//ud.findByUserName(null);
 		System.out.println("Connection Good");
 
 	}

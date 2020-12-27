@@ -1,11 +1,15 @@
 package com.revature.servlets;
 
 import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.revature.controllers.ErrorController;
+import com.revature.controllers.UserController;
 
 /**
  * Servlet implementation class FrontControllerServlet
@@ -13,7 +17,10 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/*")
 public class FrontControllerServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+	
+	private UserController userController = new UserController();
+    private ErrorController errorController = new ErrorController();
+    
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -27,11 +34,10 @@ public class FrontControllerServlet extends HttpServlet {
     	String URI = req.getRequestURI().substring(req.getContextPath().length(),req.getRequestURI().length());
     	System.out.println(URI);
     	switch(URI) {
-    		case "/helloworld": {
+    		case "/login": {
     			switch (req.getMethod()) {
-					case "GET":{
-						res.setStatus(200);
-						res.getWriter().write("Welcome!");
+					case "POST":{
+						userController.authentication(req, res);
 						break;
 					}
 					default:{
@@ -55,11 +61,11 @@ public class FrontControllerServlet extends HttpServlet {
     	
     }
     
-    protected void directControl(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    protected void directControl(HttpServletRequest req, HttpServletResponse res) throws IOException {
     		 try {
-    			 directControlRouter(request,response);
+    			 directControlRouter(req,res );
     		 } catch (Throwable t) {
-    			 
+    			 errorController.handle(req, res, t);
     		 }
     }
 

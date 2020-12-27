@@ -17,8 +17,8 @@ public class UserService implements IUserService {
 
 	@Override
 	public User logIn(Credentials credential) {
-		// TODO Auto-generated method stub
-		return null;
+		User u = ud.findByUserName(credential.getUsername(),credential.getPassword());
+		return u;
 	}
 
 }

@@ -11,8 +11,11 @@ public class UserDAO implements IUserDAO {
 	private ConnectionFactory cf = ConnectionFactory.getConnectionFactory();
 
 	@Override
-	public User findByUserName(Credentials credential) {
+	public User findByUserName(String username, String password) {
 		Connection conn = cf.getConnection();
+		
+		
+		
 		return null;
 	}
 
