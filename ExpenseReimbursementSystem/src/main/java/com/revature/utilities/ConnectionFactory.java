@@ -5,16 +5,22 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class ConnectionFactory {
-	 private static ConnectionFactory cf = new ConnectionFactory(1);
+	  private static ConnectionFactory cf = new ConnectionFactory(1);
 	  
 	  public static ConnectionFactory getConnectionFactory() {		  
 		  return cf;
 	  }
 	  
-	  
 	  private Connection[] conn;
 	  
 	  private ConnectionFactory(int numsOfConnections) {
+		  
+			try {
+				DriverManager.registerDriver(new org.postgresql.Driver());
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+		  
 		  String url = System.getenv("DB_URL");
 		  String user = System.getenv("DB_USER");
 		  String password = System.getenv("DB_PASSWORD");

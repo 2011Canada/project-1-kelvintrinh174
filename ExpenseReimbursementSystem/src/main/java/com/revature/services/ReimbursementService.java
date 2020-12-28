@@ -18,8 +18,8 @@ public class ReimbursementService implements IReimbursementService {
 
 	@Override
 	public List<Reimbursement> findAllRequestsByUserId(int userId) {
-		// TODO Auto-generated method stub
-		return null;
+		List<Reimbursement> list = rid.findAllByUserId(userId);
+		return list.size() > 0 ? list : null;
 	}
 
 	@Override

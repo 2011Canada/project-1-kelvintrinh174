@@ -27,8 +27,10 @@ public class UserController {
 		  	sess.setAttribute("User-Role", u.getUserRole());
 		  	
 		  	res.setStatus(200);
-		  	res.getWriter().write(om.writeValueAsString(u));
-		  	
+		  	res.setHeader("Content-Type", "application/json");
+		  	res.getWriter().write(om.writeValueAsString(u));	  	
 	  }
+	  
+	  
 	  
 }

@@ -106,8 +106,7 @@ public class User {
 		return userRole.toString();
 	}
 
-	public void setUserRole(String userRole) {
-		
+	public void setUserRole(String userRole) {		
 		for(UserRole ur : UserRole.values()) {
 			if(userRole.equals(ur.toString())) {
 				 this.userRole = ur;
@@ -116,6 +115,12 @@ public class User {
 		}
 		
 
+	}
+
+	@Override
+	public String toString() {
+		return "User [userId=" + userId + ", userName=" + userName + ", firstName=" + firstName + ", lastName="
+				+ lastName + ", email=" + email + ", userRoleId=" + userRoleId + ", userRole=" + userRole + "]";
 	}
 	  
 	  
