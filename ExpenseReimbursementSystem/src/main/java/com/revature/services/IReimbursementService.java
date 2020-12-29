@@ -10,5 +10,5 @@ public interface IReimbursementService {
 	public List<Reimbursement> findAllRequestsByStatusId(int statusId);
 	public Reimbursement findRequestById(int reimbId);
 	public Reimbursement createARequest(Reimbursement reimb);
-	public boolean updateRequestDetail(int reimbId);
+	public boolean updateRequestDetail(Reimbursement reimb);
 }

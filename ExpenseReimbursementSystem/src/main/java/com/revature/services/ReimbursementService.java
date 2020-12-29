@@ -8,9 +8,7 @@ import com.revature.repositories.ReimbursementDAO;
 public class ReimbursementService implements IReimbursementService {
 	
 	private ReimbursementDAO rid;
-	
-	
-
+		
 	public ReimbursementService(ReimbursementDAO rid) {
 		super();
 		this.rid = rid;
@@ -24,8 +22,8 @@ public class ReimbursementService implements IReimbursementService {
 
 	@Override
 	public List<Reimbursement> findAllRequest() {
-		// TODO Auto-generated method stub
-		return null;
+		List<Reimbursement> list = rid.findAll();
+		return list.size() > 0 ? list : null;
 	}
 
 	@Override
@@ -36,20 +34,19 @@ public class ReimbursementService implements IReimbursementService {
 
 	@Override
 	public Reimbursement findRequestById(int reimbId) {
-		// TODO Auto-generated method stub
-		return null;
+		Reimbursement re = rid.findById(reimbId);
+		return re;
 	}
 
 	@Override
 	public Reimbursement createARequest(Reimbursement reimb) {
-		// TODO Auto-generated method stub
-		return null;
+		Reimbursement re = rid.saveOne(reimb);
+		return re;
 	}
 
 	@Override
-	public boolean updateRequestDetail(int reimbId) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean updateRequestDetail(Reimbursement reimb) {		
+		return rid.updateOne(reimb);
 	}
 
 }

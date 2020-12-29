@@ -10,6 +10,6 @@ public interface IReimbursementDAO {
 	   public List<Reimbursement> findAll();
 	   public Reimbursement findById(int reimbId);
 	   public Reimbursement saveOne(Reimbursement reimb);
-	   public boolean updateOne(int reimbId);
+	   public boolean updateOne(Reimbursement re);
 	   
 }
