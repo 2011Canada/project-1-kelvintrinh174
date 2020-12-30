@@ -11,6 +11,27 @@ body {
   font-family: "Numans", sans-serif;
 }
 
+table {
+  margin-top: 100px;
+  margin-bottom: auto;
+}
+
+.menu-employee {
+  font-size: 30px;
+}
+
+h2 {
+  text-align: center !important;
+  color: white !important;
+  margin-top: 20px;
+}
+
+.col-sm h3 {
+  color: white !important;
+  height: 50px;
+  margin-top: 50px;
+}
+
 .container {
   height: 100%;
   align-content: center;
@@ -22,17 +43,6 @@ body {
   margin-bottom: auto;
   width: 400px;
   background-color: rgba(0, 0, 0, 0.5) !important;
-}
-
-.social_icon span {
-  font-size: 60px;
-  margin-left: 10px;
-  color: #ffc312;
-}
-
-.social_icon span:hover {
-  color: white;
-  cursor: pointer;
 }
 
 .card-header h3 {
