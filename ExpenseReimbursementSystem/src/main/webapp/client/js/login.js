@@ -15,7 +15,7 @@ async function loginSubmit(e) {
       headers: { "Content-Type": "application/json" },
     });
 
-    console.log(res.body);
+    //console.log(res.body);
     if (res.status == 200) {
       let user = await res.json();
       let {

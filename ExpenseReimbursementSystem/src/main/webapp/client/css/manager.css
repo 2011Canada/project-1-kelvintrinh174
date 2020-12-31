@@ -11,10 +11,23 @@ body {
   font-family: "Numans", sans-serif;
 }
 
+.form-search {
+  margin-top: 20px !important;
+}
+
+#labelSearch {
+  font-size: 20px;
+  color: white !important;
+  margin-top: 20px;
+}
+
 h2 {
   text-align: center !important;
   color: white !important;
   margin-top: 20px;
+}
+.menu-manager {
+  font-size: 30px;
 }
 
 .col-sm h3 {
