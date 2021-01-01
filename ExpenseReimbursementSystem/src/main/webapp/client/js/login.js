@@ -46,7 +46,7 @@ async function loginSubmit(e) {
       alert(msg);
     }
   } catch (err) {
-    console.log(err);
+    alert(err.message);
   }
 }
 

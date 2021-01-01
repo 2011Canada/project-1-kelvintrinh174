@@ -14,6 +14,8 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.revature.exceptions.FormatInvalidException;
+import com.revature.exceptions.UnauthenticatedException;
+import com.revature.exceptions.UnauthorizedException;
 import com.revature.models.Reimbursement;
 import com.revature.repositories.ReimbursementDAO;
 import com.revature.services.IReimbursementService;
@@ -25,6 +27,14 @@ public class ReimbursementController {
 	  
 	  
 	  public void getAllTicketEmployee(HttpServletRequest req,HttpServletResponse res) throws IOException{
+		  
+	    HttpSession sess = req.getSession();
+	  	
+		if(sess.getAttribute("User-Role") == null) {
+			throw new UnauthenticatedException();
+		} else if(!sess.getAttribute("User-Role").equals("EMPLOYEE")) {
+			throw new UnauthorizedException();
+		}
 		  int userId; 
 		  try {
 			   userId = Integer.parseInt(req.getParameter("userId"));
@@ -37,13 +47,7 @@ public class ReimbursementController {
 		  }
 		  
 		   
-//		    HttpSession sess = req.getSession();
-//			
-//			if(sess.getAttribute("User-Role") == null) {
-//				throw new UnauthenticatedException();
-//			} else if(!sess.getAttribute("User-Role").equals("EMPLOYEE")) {
-//				throw new UnauthorizedException();
-//			}
+		    
 			List<Reimbursement> list = rs.findAllRequestsByUserId(userId);
 			JSONArray ja = new JSONArray();
 			if(list!=null) {
@@ -71,20 +75,21 @@ public class ReimbursementController {
 	  }
 	  
 	  public void addNewTicket(HttpServletRequest req,HttpServletResponse res) throws IOException{
-//		   HttpSession sess = req.getSession();
-//			
-//			if(sess.getAttribute("User-Role") == null) {
-//				throw new UnauthenticatedException();
-//			} else if(!sess.getAttribute("User-Role").equals("EMPLOYEE")) {
-//				throw new UnauthorizedException();
-//			}	    
+		    HttpSession sess = req.getSession();
+			
+			if(sess.getAttribute("User-Role") == null) {
+				throw new UnauthenticatedException();
+			} else if(!sess.getAttribute("User-Role").equals("EMPLOYEE")) {
+				throw new UnauthorizedException();
+			}	    
 		    Reimbursement re;
 		    try {
 		    	re = om.readValue(req.getInputStream(), Reimbursement.class);
 		    } catch(JsonParseException jpe) {
-		    	//jpe.printStackTrace();
+		    	jpe.printStackTrace();
 		    	throw new FormatInvalidException();
 		    } catch(InvalidFormatException ife) {
+		    	ife.printStackTrace();
 		    	throw new FormatInvalidException();
 		    }
 
@@ -97,13 +102,13 @@ public class ReimbursementController {
 	  }
 	  
 	  public void updateTicket(HttpServletRequest req,HttpServletResponse res) throws IOException {
-//		   HttpSession sess = req.getSession();
-//			
-//			if(sess.getAttribute("User-Role") == null) {
-//				throw new UnauthenticatedException();
-//			} else if(!sess.getAttribute("User-Role").equals("MANAGER")) {
-//				throw new UnauthorizedException();
-//			}
+		   HttpSession sess = req.getSession();
+			
+			if(sess.getAttribute("User-Role") == null) {
+				throw new UnauthenticatedException();
+			} else if(!sess.getAttribute("User-Role").equals("MANAGER")) {
+				throw new UnauthorizedException();
+			}
 		    Reimbursement re;
 		    try {
 		    	re = om.readValue(req.getInputStream(), Reimbursement.class);
@@ -122,6 +127,13 @@ public class ReimbursementController {
 	  }
 	  
 	  public void getTicketById(HttpServletRequest req,HttpServletResponse res) throws IOException{
+		   HttpSession sess = req.getSession();
+			
+			if(sess.getAttribute("User-Role") == null) {
+				throw new UnauthenticatedException();
+			} else if(!sess.getAttribute("User-Role").equals("MANAGER")) {
+				throw new UnauthorizedException();
+			}
 		  int ticketId;
 		  try {
 			  ticketId = Integer.parseInt(req.getParameter("ticketId"));
@@ -132,13 +144,7 @@ public class ReimbursementController {
 		    	//npe.printStackTrace();
 		    	throw new FormatInvalidException();
 		  }
-//		   HttpSession sess = req.getSession();
-//			
-//			if(sess.getAttribute("User-Role") == null) {
-//				throw new UnauthenticatedException();
-//			} else if(!sess.getAttribute("User-Role").equals("EMPLOYEE")) {
-//				throw new UnauthorizedException();
-//			}
+
 		  
 		  Reimbursement re = rs.findRequestById(ticketId);
 		  res.setStatus(200);
@@ -148,13 +154,13 @@ public class ReimbursementController {
 
 	  public void getAllTicket(HttpServletRequest req,HttpServletResponse res) throws IOException{
 		  
-//		   HttpSession sess = req.getSession();
-//			
-//			if(sess.getAttribute("User-Role") == null) {
-//				throw new UnauthenticatedException();
-//			} else if(!sess.getAttribute("User-Role").equals("MANAGER")) {
-//				throw new UnauthorizedException();
-//			}
+		   HttpSession sess = req.getSession();
+			
+			if(sess.getAttribute("User-Role") == null) {
+				throw new UnauthenticatedException();
+			} else if(!sess.getAttribute("User-Role").equals("MANAGER")) {
+				throw new UnauthorizedException();
+			}
 		  List<Reimbursement> list = rs.findAllRequest();
 			JSONArray ja = new JSONArray();
 			if(list!=null) {

@@ -27,7 +27,8 @@ public class ReimbursementDAO implements IReimbursementDAO {
 			String sql = "select * from ers_reimbursement er \r\n"
 					+ "inner join ers_reimbursement_status ers on er.reimb_status_id = ers.reimb_status_id\r\n"
 					+ "inner join ers_reimbursement_type ert on er.reimb_type_id = ert.reimb_type_id\r\n"
-					+ "where reimb_author = ?;";
+					+ "where reimb_author = ?"
+					+ "order by er.reimb_submited;";
 			PreparedStatement findAllTickets = conn.prepareStatement(sql);
 			findAllTickets.setInt(1, userId);
 			
@@ -122,6 +123,7 @@ public class ReimbursementDAO implements IReimbursementDAO {
 			String sql = "select * from ers_reimbursement er \r\n"
 					+ "inner join ers_reimbursement_status ers on er.reimb_status_id = ers.reimb_status_id\r\n"
 					+ "inner join ers_reimbursement_type ert on er.reimb_type_id = ert.reimb_type_id\r\n"
+					+ "inner join ers_users eu on eu.ers_users_id = er.reimb_author\r\n"
 					+ "where reimb_id = ?;";
 			PreparedStatement getATicket = conn.prepareStatement(sql);
 			getATicket.setInt(1, reimbId);
@@ -141,6 +143,8 @@ public class ReimbursementDAO implements IReimbursementDAO {
 				ticket.setTypeId(res.getInt("reimb_type_id"));
 				ticket.setReimbType(res.getString("reimb_type"));
 				ticket.setReceipt(res.getBytes("reimb_receipt"));
+				ticket.setAuthorName(res.getString("user_first_name") +" "+res.getString("user_last_name"));
+				ticket.setAuthorEmail(res.getString("user_email"));
 				return ticket;			
 			} 
 			else {
@@ -172,7 +176,8 @@ public class ReimbursementDAO implements IReimbursementDAO {
 		String sql = "select * from ers_reimbursement er \r\n"
 				+ "inner join ers_reimbursement_status ers on er.reimb_status_id = ers.reimb_status_id\r\n"
 				+ "inner join ers_reimbursement_type ert on er.reimb_type_id = ert.reimb_type_id\r\n"
-				+ "inner join ers_users eu on eu.ers_users_id = er.reimb_author;";
+				+ "inner join ers_users eu on eu.ers_users_id = er.reimb_author\r\n"
+				+ "order by er.reimb_submited;";
 		try {
 			PreparedStatement listAllTickets = conn.prepareStatement(sql);
 			
@@ -221,7 +226,8 @@ public class ReimbursementDAO implements IReimbursementDAO {
 				+ "where reimb_id = ?;";
 		try {
 			PreparedStatement updateTicket = conn.prepareStatement(sql);
-			updateTicket.setTimestamp(1, Timestamp.valueOf(re.getDateResolved()));
+			LocalDateTime now = LocalDateTime.now();
+			updateTicket.setTimestamp(1, Timestamp.valueOf(now));
 			updateTicket.setInt(2, re.getResolverId());
 			updateTicket.setInt(3, re.getStatusId());
 			updateTicket.setInt(4, re.getReimbId());

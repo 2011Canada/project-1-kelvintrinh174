@@ -2,17 +2,19 @@ const baseURL = "http://localhost:8080/reimbursementsystem/";
 let listTicket;
 $(document).ready(async () => {
   let data = await getAllTicket();
-  listTicket = data;
-  let listTicketId = updateTicketTable(data);
-
-  //add event listener for each view button in the first load
-  listTicketId.forEach((id) => {
-    $(`#ticket-${id}`).click(function (e) {
-      e.preventDefault();
-      sessionStorage.setItem("ticketId", id);
-      window.location.assign("./viewTicket.html");
+  let listTicketId;
+  if (data) {
+    listTicket = data;
+    listTicketId = updateTicketTable(data);
+    //add event listener for each view button in the first load
+    listTicketId.forEach((id) => {
+      $(`#ticket-${id}`).click(function (e) {
+        e.preventDefault();
+        sessionStorage.setItem("ticketId", id);
+        window.location.assign("./viewTicket.html");
+      });
     });
-  });
+  }
 
   $("#search-pending").click(function (e) {
     e.preventDefault();
@@ -62,9 +64,14 @@ function searchTicketTable(data) {
 async function getAllTicket() {
   try {
     let response = await fetch(`${baseURL}getallticket`);
-    let data = await response.json();
 
-    return data;
+    if (response.status === 200) {
+      let data = await response.json();
+      return data;
+    } else {
+      let msg = await response.text();
+      alert(msg);
+    }
   } catch (e) {
     alert(e.message);
   }
