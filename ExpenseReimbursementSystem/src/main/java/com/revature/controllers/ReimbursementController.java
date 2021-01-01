@@ -37,7 +37,7 @@ public class ReimbursementController {
 		  }
 		  
 		   
-//		   HttpSession sess = req.getSession();
+//		    HttpSession sess = req.getSession();
 //			
 //			if(sess.getAttribute("User-Role") == null) {
 //				throw new UnauthenticatedException();
@@ -171,6 +171,8 @@ public class ReimbursementController {
 					jo.put("reimbStatus", re.getReimbStatus());
 					jo.put("typeId", re.getTypeId());
 					jo.put("reimbType", re.getReimbType());
+					jo.put("authorName", re.getAuthorName());
+					jo.put("authorEmail", re.getAuthorEmail());
 									
 					ja.put(jo);
 				}

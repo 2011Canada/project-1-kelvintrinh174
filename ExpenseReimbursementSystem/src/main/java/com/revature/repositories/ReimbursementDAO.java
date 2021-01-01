@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -75,8 +76,11 @@ public class ReimbursementDAO implements IReimbursementDAO {
 					+ "reimb_status_id,reimb_type_id,reimb_description,reimb_receipt)\r\n"
 					+ "values (?,?,?,?,?,?,?) returning \"reimb_id\";";
 			PreparedStatement addNewTicket = conn.prepareStatement(sql);
+			LocalDateTime now = LocalDateTime.now();
+		
+			Timestamp timestamp = Timestamp.valueOf(now);
 			addNewTicket.setDouble(1, reimb.getAmount());
-			addNewTicket.setTimestamp(2, Timestamp.valueOf(reimb.getDateSubmitted()));
+			addNewTicket.setTimestamp(2, timestamp);
 			addNewTicket.setInt(3, reimb.getAuthorId());
 			addNewTicket.setInt(4, reimb.getStatusId());
 			addNewTicket.setInt(5, reimb.getTypeId());
@@ -167,7 +171,8 @@ public class ReimbursementDAO implements IReimbursementDAO {
 		List<Reimbursement> list = new ArrayList<>();
 		String sql = "select * from ers_reimbursement er \r\n"
 				+ "inner join ers_reimbursement_status ers on er.reimb_status_id = ers.reimb_status_id\r\n"
-				+ "inner join ers_reimbursement_type ert on er.reimb_type_id = ert.reimb_type_id;";
+				+ "inner join ers_reimbursement_type ert on er.reimb_type_id = ert.reimb_type_id\r\n"
+				+ "inner join ers_users eu on eu.ers_users_id = er.reimb_author;";
 		try {
 			PreparedStatement listAllTickets = conn.prepareStatement(sql);
 			
@@ -180,6 +185,8 @@ public class ReimbursementDAO implements IReimbursementDAO {
 				ticket.setDateResolved(res.getString("reimb_resolved"));
 				ticket.setDescription(res.getString("reimb_description"));
 				ticket.setAuthorId(res.getInt("reimb_author"));
+				ticket.setAuthorName(res.getString("user_first_name") +" "+res.getString("user_last_name"));
+				ticket.setAuthorEmail(res.getString("user_email"));
 				ticket.setReimbId(res.getInt("reimb_id"));
 				ticket.setStatusId(res.getInt("reimb_status_id"));
 				ticket.setReimbStatus(res.getString("reimb_status"));

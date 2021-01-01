@@ -1,6 +1,8 @@
 package com.revature.models;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.Arrays;
 
 public class Reimbursement {
 	   private int reimbId;
@@ -10,7 +12,26 @@ public class Reimbursement {
 	   private String description;
 	   private byte[] receipt;
 	   private int authorId;
-	   private int resolverId;
+	   private String authorName;
+	   private String authorEmail;
+	   public String getAuthorName() {
+		return authorName;
+	}
+
+	public void setAuthorName(String authorName) {
+		this.authorName = authorName;
+	}
+
+	public String getAuthorEmail() {
+		return authorEmail;
+	}
+
+	public void setAuthorEmail(String authorEmail) {
+		this.authorEmail = authorEmail;
+	}
+
+
+	private int resolverId;
 	   private int statusId;
 	   private ReimbursementStatus reimbStatus;
 	   private int typeId;
@@ -82,7 +103,8 @@ public class Reimbursement {
 		}
 
 		public String getDateSubmitted() {
-			return dateSubmitted;
+			String fixDate = dateSubmitted.substring(0,dateSubmitted.indexOf("."));
+			return fixDate;
 		}
 
 		public void setDateSubmitted(String dateSubmitted) {
@@ -90,7 +112,12 @@ public class Reimbursement {
 		}
 
 		public String getDateResolved() {
-			return dateResolved;
+			String fixDate=null;
+			if(dateResolved!=null) {
+				fixDate = dateResolved.substring(0,dateResolved.indexOf("."));
+			}
+			
+			return fixDate;
 		}
 
 		public void setDateResolved(String dateResolved) {
@@ -148,10 +175,13 @@ public class Reimbursement {
 		@Override
 		public String toString() {
 			return "Reimbursement [reimbId=" + reimbId + ", amount=" + amount + ", dateSubmitted=" + dateSubmitted
-					+ ", dateResolved=" + dateResolved + ", description=" + description + ", authorId=" + authorId
-					+ ", resolverId=" + resolverId + ", statusId=" + statusId + ", reimbStatus=" + reimbStatus
-					+ ", typeId=" + typeId + ", reimbType=" + reimbType + "]";
+					+ ", dateResolved=" + dateResolved + ", description=" + description + ", receipt="
+					+ Arrays.toString(receipt) + ", authorId=" + authorId + ", authorName=" + authorName
+					+ ", authorEmail=" + authorEmail + ", resolverId=" + resolverId + ", statusId=" + statusId
+					+ ", reimbStatus=" + reimbStatus + ", typeId=" + typeId + ", reimbType=" + reimbType + "]";
 		}
+
+		
 		
 		
 	   

@@ -17,6 +17,7 @@ public class DAODebugger {
 		System.out.println("Connection Good");
 		User u = new User();
 	    ReimbursementDAO rd = new ReimbursementDAO();
+	    System.out.println(rd.findAll());
 		//u.setUserName("kelvintrinh");
 		//u.setPassword("12345");
 		//u.setUserId(1);

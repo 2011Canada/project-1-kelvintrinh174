@@ -30,7 +30,7 @@
         <div class="col-sm"><h2>Manager Portal</h2></div>
       </div>
       <div class="row">
-        <div class="col-sm"><h3>Welcome!</h3></div>
+        <div class="col-sm"><h3>Welcome <span id="username"></span>!</h3></div>
       </div>
       <div class="row">
         <a type="button" class="btn btn-outline-primary" href="./index.html"
@@ -49,7 +49,7 @@
               </select>
             </div>
             <div class="form-group col-md-4">
-              <button type="submit" class="btn btn-primary">Search</button>
+              <button type="button" class="btn btn-primary" id="search-pending">Search</button>
             </div>
           </div>
         </form>
@@ -66,22 +66,13 @@
               <th scope="col">Type</th>
               <th scope="col">Date Submitted</th>
               <th scope="col">Date Resolved</th>
-              <th scope="col">Request Resolver</th>
+              <th scope="col">Employee Name</th>
+              <th scope="col">Employee Email</th>
               <th scope="col">Action</th>
             </tr>
           </thead>
-          <tbody>
-            <tr>
-              <th scope="row">1</th>
-              <td>150$</td>
-              <td>PENDING</td>
-              <td>"My business trip"</td>
-              <td>LODGING</td>
-              <td>2020-12-31 10:23:20</td>
-              <td>N/A</td>
-              <td>Bob</td>
-              <td><a href="./viewTicket.html">View</a></td>
-            </tr>
+          <tbody id="table-body">
+           
           </tbody>
         </table>
       </div>
@@ -102,5 +93,6 @@
       integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s"
       crossorigin="anonymous"
     ></script>
+    <script src="./js/manager.js"></script>
   </body>
 </html>
