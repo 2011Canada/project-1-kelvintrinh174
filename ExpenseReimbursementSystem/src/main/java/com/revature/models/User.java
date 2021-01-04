@@ -1,5 +1,9 @@
 package com.revature.models;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+
 public class User {
 	  private int userId;
 	  private String userName;
@@ -65,9 +69,45 @@ public class User {
 	public String getPassword() {
 		return password;
 	}
+	
+	private static byte[] getSalt(String userName) throws NoSuchAlgorithmException
+	{
+	    //Always use a SecureRandom generator
+	    //SecureRandom sr = SecureRandom.getInstance("SHA1PRNG");
+	    //Create array for salt
+	    byte[] salt = userName.getBytes();
+	    //Get a random salt
+	    //sr.nextBytes(salt);
+	    //return salt
+	    return salt;
+	}
+		
+    private static String makeSecurePassword(String passwordToHash,byte[] salt)
+    {
+        String generatedPassword = null;
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-512");
+            md.update(salt);
+            byte[] bytes = md.digest(passwordToHash.getBytes());
+            StringBuilder sb = new StringBuilder();
+            for(int i=0; i< bytes.length ;i++)
+            {
+                sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
+            }
+            generatedPassword = sb.toString();
+        } 
+        catch (NoSuchAlgorithmException e) 
+        {
+            e.printStackTrace();
+        }
+        return generatedPassword;
+    }
 
-	public void setPassword(String password) {
-		this.password = password;
+	public void setPassword(String password) throws NoSuchAlgorithmException {
+		byte[] salt = getSalt(this.userName);
+		//System.out.println(salt.toString());
+		String securePassword = makeSecurePassword(password,salt);		
+		this.password = securePassword;	
 	}
 
 	public String getFirstName() {

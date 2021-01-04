@@ -13,17 +13,55 @@ import com.revature.utilities.ConnectionFactory;
 public class UserDAO implements IUserDAO {
 	
 	private ConnectionFactory cf = ConnectionFactory.getConnectionFactory();
-
+	
 	@Override
-	public User findByUserName(String username, String password) {
+	public int createUser(User user) {
+		Connection conn = cf.getConnection();
+		try {
+			String sql = "insert into \"ers_users\" (ers_username,ers_password,user_email,"
+					   + "user_role_id,user_first_name,user_last_name) "
+					   + "values (?,?,?,?,?,?) returning \"ers_users_id\";";
+			PreparedStatement createUser = conn.prepareStatement(sql);
+			createUser.setString(1, user.getUserName());
+			createUser.setString(2, user.getPassword());
+			createUser.setString(3, user.getEmail());
+			createUser.setInt(4, user.getUserRoleId());
+			createUser.setString(5, user.getFirstName());
+			createUser.setString(6, user.getLastName());
+			ResultSet res = createUser.executeQuery();
+
+			if(res.next()) {
+
+				int userId = res.getInt("ers_users_id");
+				return userId;
+			} else {
+				throw new SQLException();
+			}
+						
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new InternalErrorException();			
+		}
+		finally {
+			
+			try {
+				cf.releaseConnection(conn);
+			} catch (SQLException e) {	
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	@Override
+	public User findByUserName(User user) {
 		Connection conn = cf.getConnection();
 		try {
 			String sql = "select * from ers_users eu\r\n"
 					+ "inner join ers_user_roles eur on eu.user_role_id = eur.ers_user_role_id \r\n"
 					+ "where ers_username = ? and ers_password = ?;";
 			PreparedStatement getUser = conn.prepareStatement(sql);
-			getUser.setString(1, username);
-			getUser.setString(2, password);
+			getUser.setString(1, user.getUserName());
+			getUser.setString(2, user.getPassword());
 			ResultSet res = getUser.executeQuery();
 			if(res.next()) {
 
@@ -54,5 +92,7 @@ public class UserDAO implements IUserDAO {
 		}
 				
 	}
+
+	
 
 }
