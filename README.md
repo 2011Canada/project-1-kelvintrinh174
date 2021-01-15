@@ -2,7 +2,7 @@
 
 ## Project Description
 
-An expense Reimbursement System that allows employees to create new reimbursement requests and finance managers can review, approve or reject them.  
+An Expense Reimbursement System that allows employees to create new reimbursement requests and finance managers can review, approve or reject them.  
 
 ## Technologies Used
 
