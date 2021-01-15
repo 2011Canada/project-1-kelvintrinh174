@@ -72,13 +72,7 @@ public class User {
 	
 	private static byte[] getSalt(String userName) throws NoSuchAlgorithmException
 	{
-	    //Always use a SecureRandom generator
-	    //SecureRandom sr = SecureRandom.getInstance("SHA1PRNG");
-	    //Create array for salt
 	    byte[] salt = userName.getBytes();
-	    //Get a random salt
-	    //sr.nextBytes(salt);
-	    //return salt
 	    return salt;
 	}
 		
