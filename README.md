@@ -16,6 +16,7 @@ An Expense Reimbursement System that allows employees to create new reimbursemen
 * HTML5
 * Javascript ES6
 * jQuery
+* AJAX
 
 ## Features
 
